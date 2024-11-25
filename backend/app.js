@@ -1,12 +1,19 @@
 const express = require('express');
 const cors = require('cors');
- 
+const cookieParser = require('cookie-parser');
+const authRoutes = require('./routes/authRoutes.js');
+
 const app = express();
 const port = 8081;
 const knex = require('knex')(require('./knexfile.js')[process.env.NODE_ENV || 'development']);
 
+
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
+
+//Auth Routes
+app.use('/api/auth', authRoutes);
 
 app.get('/', (request, response) => {
     response.send('Application is up and running');
@@ -16,10 +23,10 @@ app.get('/workouts', (request, response) => {
     knex('workout_data')
         .select('*')
         .then(data => {
-            response.json(data);  
+            response.json(data);
         })
         .catch(err => {
-            console.error(err);  
+            console.error(err);
             response.status(404).json({
                 message: 'The data you are looking for could not be found.',
             });
@@ -29,12 +36,12 @@ app.get('/workouts', (request, response) => {
 app.get('/workouts/:id', (request, response) => {
     knex('workout_data')
         .select('*')
-        .where('id', request.params.id)  
+        .where('id', request.params.id)
         .then(data => {
-            response.json(data);  
+            response.json(data);
         })
-        .catch((err) => response.status(500).json({ 
-            message: 'Requested workout does not exist' 
+        .catch((err) => response.status(500).json({
+            message: 'Requested workout does not exist'
         })
     );
 });
@@ -91,7 +98,7 @@ app.post('/workouts', (request, response) => {
         .then(data => {
             response.status(201).json({
                 message: 'Workout entry created successfully.',
-                workout: data[0], 
+                workout: data[0],
             });
         })
         .catch(err => {
@@ -109,10 +116,10 @@ app.delete('/workouts/:id', (request, response) => {
         .returning('*')
         .then(deletedWorkout => response.json({
             message: `Workout entry with id ${request.params.id} deleted successfully.`,
-            deletedWorkout: deletedWorkout[0], 
+            deletedWorkout: deletedWorkout[0],
         }))
-        .catch(() => response.status(500).json({ 
-            message: 'workout could not be deleted or does not exist.' 
+        .catch(() => response.status(500).json({
+            message: 'workout could not be deleted or does not exist.'
          })
     );
  });
@@ -123,8 +130,8 @@ app.delete('/workouts/:id', (request, response) => {
         .update(request.body)
         .returning('*')
         .then(updatedWorkout => response.json(updatedWorkout))
-        .catch((err) => response.status(500).json({ 
-            message: 'Requested workout does not exist' 
+        .catch((err) => response.status(500).json({
+            message: 'Requested workout does not exist'
         })
     );
  });
