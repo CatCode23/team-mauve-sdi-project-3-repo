@@ -20,7 +20,7 @@ const UserProfile = () => {
           {workouts.map((workout) => (
             <li key={workout.id}>
               <p>
-                <strong>Date:</strong>{" "}
+                <strong>Date:</strong>
                 {new Date(workout.activity_day).toLocaleDateString()}
               </p>
               <p>
