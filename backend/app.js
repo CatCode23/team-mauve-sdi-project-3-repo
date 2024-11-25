@@ -30,12 +30,10 @@ app.get('/workouts/:id', (request, response) => {
         .then(data => {
             response.json(data);  
         })
-        .catch(err => {
-            console.error(err);
-            response.status(500).json({
-                message: 'An error occurred while fetching the workout data.',
-            });
-        });
+        .catch((err) => response.status(500).json({ 
+            message: 'Requested workout does not exist' 
+        })
+    );
 });
 
 app.post('/workouts', (request, response) => {
