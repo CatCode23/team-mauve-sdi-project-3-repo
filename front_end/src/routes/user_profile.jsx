@@ -1,9 +1,9 @@
-import React from 'react'
-
-export default function UserProfile() {
+const UserProfile = () => {
   return (
     <div>
-      
+      User Profile Placeholder
     </div>
   )
 }
+
+export default UserProfile;
