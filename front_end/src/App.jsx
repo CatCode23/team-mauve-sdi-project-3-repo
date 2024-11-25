@@ -5,17 +5,7 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
-
-  const [workouts, setWorkouts] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:8081/workouts')
-      .then(response => response.json())
-      .then(data => setWorkouts(data)) 
-      .catch(error => {
-        console.error("Error fetching workout data:", error);
-      });
-  }, []);   
+   
 
   return (
     <>
