@@ -26,38 +26,39 @@ router.get('/', async (req, res) => {
 
 // === POST Create New User into Database ===
 router.post('/', async (req, res) => {
-  console.log('POST request received at /users');
-  console.log('Request body:', req.body);
+    console.log('POST request received at /users');
+    console.log('Request body:', req.body);
+    
+    const { name, email } = req.body;
   
-  const { username, role, team_id } = req.body;
-
-  if (!username || !role) {
-    console.log('Missing required fields');
-    return res.status(400).json({ error: "Username and role are required" });
-  }
-
-  try {
-    const result = await pool.query(
-      'INSERT INTO users (username, role, team_id) VALUES ($1, $2, $3) RETURNING *',
-      [username, role, team_id]
-    );
-    console.log('User created successfully:', result.rows[0]);
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    console.error('Database error:', err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
+    if (!name || !email) {
+      console.log('Missing required fields');
+      return res.status(400).json({ error: "Name and email are required" });
+    }
+  
+    try {
+      const result = await pool.query(
+        'INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *',
+        [name, email]
+      );
+      console.log('User created successfully:', result.rows[0]);
+      res.status(201).json(result.rows[0]);
+    } catch (err) {
+      console.error('Database error:', err.message);
+      res.status(500).json({ error: err.message });
+    }
+  });
+  
 
 // === PUT Update User ===
 router.put('/:id', async (req, res) => {
   console.log(`PUT request received for user with ID: ${req.params.id}`);
-  const { username, role, team_id } = req.body;
+  const { name, email } = req.body;
 
   try {
     const result = await pool.query(
-      'UPDATE users SET username = $1, role = $2, team_id = $3 WHERE id = $4 RETURNING *',
-      [username, role, team_id, req.params.id]
+      'UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *',
+      [name, email, req.params.id]
     );
     res.status(200).json(result.rows[0]);
   } catch (err) {

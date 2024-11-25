@@ -1,12 +1,17 @@
 const express = require('express');
 const cors = require('cors');
+
  
 const app = express();
 const port = 8081;
 const knex = require('knex')(require('./knexfile.js')[process.env.NODE_ENV || 'development']);
 
+const userRoutes = require('../routes/userRoutes');
+
+
 app.use(cors());
 app.use(express.json());
+
 
 app.get('/', (request, response) => {
     response.send('Application is up and running');
@@ -129,6 +134,7 @@ app.delete('/workouts/:id', (request, response) => {
     );
  });
 
+ app.use('/users', userRoutes);
 
 app.listen(port, () => {
     console.log('Your Knex and Express app are running successfully');
