@@ -1,4 +1,4 @@
-const { parse } = require("../node_modules/csv-parse/dist/cjs/sync.d.cts");
+const { parse } = require("csv-parse/sync");
 const fs = require("fs");
 
 /**
