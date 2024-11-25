@@ -1,19 +1,23 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { createBrowseerRouter, RouterProvider } from "react-router-dom";
-import './index.css'
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 
 //Routes
 //import App from './App.jsx'
-import ErrorPage from "./routes/error_page.jsx"
+import Layout from './routes/layout.jsx';
+import ErrorPage from "./routes/error_page.jsx";
+import Login from "./routes/login.jsx";
+import LeaderDashboard from "./routes/leader_dashboard.jsx";
+import UserProfile from "./routes/user_profile.jsx";
 
-
+import './index.css'
 
 const router = createBrowserRouter( [
   {
     path:"/",
     element: <Layout />,
-    errorChild: <ErrorPage />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: "/",
@@ -26,8 +30,7 @@ const router = createBrowserRouter( [
       {
         path: "/Leader-Dashboard",
         element: <LeaderDashboard />
-      }
-
+      },
     ]
   }
 ])
