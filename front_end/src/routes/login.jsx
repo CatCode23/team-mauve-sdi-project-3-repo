@@ -1,11 +1,11 @@
 import {useState} from 'react';
-//import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const Login = () => {
   // State Variables
   const [formData, setFromData] = useState( {username: '', password: ''} );
   const [login, setLogin] = useState(false);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   // Click Events
   const handleFormData = (event) => {
@@ -21,7 +21,7 @@ const Login = () => {
       .catch(error => { console.log(error.message)})
     let data = await response.json();
     console.log(data);
-    //navigate('/User-Profile');
+    navigate('/User-Profile');
   };
 
   return (
