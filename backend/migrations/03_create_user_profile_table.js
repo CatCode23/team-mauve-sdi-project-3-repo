@@ -10,7 +10,7 @@ exports.up = function (knex) {
       table.foreign("id_workout").references("workout_data.id")
       table.integer("id_workout_schedule")
       table.foreign("id_workout_schedule").references("workout_schedule.id")
-       
+
     });
   };
 

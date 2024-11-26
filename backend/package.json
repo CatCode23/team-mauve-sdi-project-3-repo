@@ -4,6 +4,7 @@
   "main": "csv_import.js",
   "scripts": {
     "start": "node app.js",
+    "start-dev": "knex migrate:rollback && knex migrate:latest && knex seed:run && node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint ."
   },

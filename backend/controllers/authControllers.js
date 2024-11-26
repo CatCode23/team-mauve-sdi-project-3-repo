@@ -4,22 +4,22 @@ const bcrypt = require('bcryptjs');
 const knex = require('knex')(require('../knexfile.js')[process.env.NODE_ENV || 'development']);
 
 const registerUser = async (req, res) => {
-  const { username, password } = req.body;
+  let { username, password } = req.body;
   try {
     // Check if user exists
-    const existingUser = await knex('users').where('username', username).first();
+    let existingUser = await knex('users').where('username', username).first();
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
     // Hash the password
-    const hashedPass = await bcrypt.hash(password, 10);
+   let hashedPass = await bcrypt.hash(password, 10);
 
     // Insert the new user into the database
-    const [newUser] = await knex('users').insert({ username, password: hashedPass }, ['username']);
+    let newUser = await knex('users').insert({ username: username, password: hashedPass });
 
-    res.cookie('user', JSON.stringify(newUser), {httpOnly: true, maxAge: 1800000}); //half hour
-    res.status(201).json(newUser);
+    res.cookie('user', JSON.stringify(newUser.username), {httpOnly: true, maxAge: 1800000}); //half hour
+    res.status(201).json('newUser');
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error - User Registration' });
@@ -27,19 +27,19 @@ const registerUser = async (req, res) => {
 };
 
 const userLogin = async (req, res) => {
-  const { username, password } = req.body;
+  let { username, password } = req.body;
   try {
     // Validate user
-    const user = await knex('users').where('username', username).first();
+    let user = await knex('users').where('username', username).first();
     if (!user) {
       return res.status(400).json({ message: 'Invalid Username or Password' });
     }
-    const isMatch = await bcrypt.compare(password, user.password);
+    let isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid Username or Password' });
     }
-    res.cookie('user', JSON.stringify(user), { httpOnly: true, maxAge: 1800000 }); // Half-hour expiration
-    res.status(200).json(user);
+    res.cookie('user', JSON.stringify(user.username), { httpOnly: true, maxAge: 1800000 }); // Half-hour expiration
+    res.status(200).json('user');
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error - User Login' });
