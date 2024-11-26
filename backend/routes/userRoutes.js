@@ -4,6 +4,7 @@
 const { Router } = require('express');
 const userRouter = Router();
 const { Pool } = require('pg');
+const bcrypt = require('bcrypt');
 
 // Set up PostgreSQL connection using environment variables
 const pool = new Pool({
@@ -25,6 +26,22 @@ userRouter.get('/', async (req, res) => {
   }
 });
 
+// GET User by ID
+userRouter.get('/:id', async (req, res) => {
+  const userId = req.params.id;
+  console.log('GET request received for user with ID:', userId);
+  try {
+    const result = await pool.query('SELECT * FROM users WHERE id = $1', [userId]);
+    if (result.rows.length > 0) {
+      res.status(200).json(result.rows[0]);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // POST Create New User
 userRouter.post('/', async (req, res) => {
   console.log('POST request received at /users');  // Debugging log
@@ -36,13 +53,43 @@ userRouter.post('/', async (req, res) => {
   }
 
   try {
+    // Hash the password before saving to the database
+    const hashedPassword = await bcrypt.hash(password, 10);
     console.log('Inserting user into database...');
     const result = await pool.query(
       'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *',
-      [username, password]
+      [username, hashedPassword]
     );
     console.log('User created successfully:', result.rows[0]);
     res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.log('Database error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// PUT Update User by ID
+userRouter.put('/:id', async (req, res) => {
+  const userId = req.params.id;
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ error: "Username and Password are required" });
+  }
+
+  try {
+    // Hash the new password before updating
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log('Updating user in database...');
+    const result = await pool.query(
+      'UPDATE users SET username = $1, password = $2 WHERE id = $3 RETURNING *',
+      [username, hashedPassword, userId]
+    );
+    if (result.rows.length > 0) {
+      res.status(200).json(result.rows[0]);
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
   } catch (err) {
     console.log('Database error:', err.message);
     res.status(500).json({ error: err.message });
@@ -55,11 +102,16 @@ userRouter.delete('/:id', async (req, res) => {
   console.log('DELETE request received for user with ID:', userId);
 
   try {
-    await pool.query('DELETE FROM users WHERE id = $1', [userId]);
-    res.status(200).json({ message: 'User deleted successfully' });
+    const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING *', [userId]);
+    if (result.rows.length > 0) {
+      res.status(200).json({ message: 'User deleted successfully', user: result.rows[0] });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
 module.exports = userRouter;
+
