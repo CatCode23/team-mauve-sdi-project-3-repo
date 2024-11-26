@@ -7,10 +7,7 @@ const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const teamRoutes = require('./routes/teamRoutes');
-const knex = require('./knex'); // Use centralized knex
-const express = require("express");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
+// const knex = require('./knex'); // Use centralized knex
 const authRouter = require("./routes/authRoutes.js");
 
 const app = express();
@@ -42,7 +39,7 @@ app.get('/', (request, response) => {
 app.get("/", (request, response) => {
   response.send("Application is up and running");
 });
-
+});
 // Workout Routes
 app.get('/workouts', (request, response) => {
   knex('workout_data')
@@ -56,6 +53,7 @@ app.get('/workouts', (request, response) => {
         message: 'The data you are looking for could not be found.',
       });
     });
+  });
 app.get("/workouts", (request, response) => {
   knex("workout_data")
     .select("*")
@@ -80,7 +78,8 @@ app.get('/workouts/:id', (request, response) => {
     .catch((err) =>
       response.status(500).json({
         message: 'Requested workout does not exist',
-      })
+      }));
+    });
 app.get("/workouts/:id", (request, response) => {
   knex("workout_data")
     .select("*")
@@ -96,9 +95,52 @@ app.get("/workouts/:id", (request, response) => {
 });
 
 app.post('/workouts', (request, response) => {
+  const {
+    activity_day,
+    workout_type,
+    distance,
+    time,
+    calories,
+    total_steps,
+    avg_speed,
+    avg_cadence,
+    max_cadence,
+    avg_pace,
+    max_pace,
+    min_pace,
+    avg_heart_rate,
+    max_heart_rate,
+    min_heart_rate,
+    vo2_max,
+    aerobic,
+    anaerobic,
+    intensive,
+    light,
+  } = request.body;
+
   const workoutData = {
-    ...request.body,
+    activity_day: activity_day || null,
+    workout_type: workout_type || null,
+    distance: distance || null,
+    time: time || null,
+    calories: calories || null,
+    total_steps: total_steps || null,
+    avg_speed: avg_speed || null,
+    avg_cadence: avg_cadence || null,
+    max_cadence: max_cadence || null,
+    avg_pace: avg_pace || null,
+    max_pace: max_pace || null,
+    min_pace: min_pace || null,
+    avg_heart_rate: avg_heart_rate || null,
+    max_heart_rate: max_heart_rate || null,
+    min_heart_rate: min_heart_rate || null,
+    vo2_max: vo2_max || null,
+    aerobic: aerobic || null,
+    anaerobic: anaerobic || null,
+    intensive: intensive || null,
+    light: light || null,
   };
+
   
   knex('workout_data')
     .insert(workoutData)
@@ -115,6 +157,7 @@ app.post('/workouts', (request, response) => {
         message: 'Entry could not be created.',
       });
     });
+  });
 app.post("/workouts", (request, response) => {
   const {
     activity_day,
@@ -192,7 +235,8 @@ app.delete('/workouts/:id', (request, response) => {
     .catch(() =>
       response.status(500).json({
         message: 'Workout could not be deleted or does not exist.',
-      })
+      }))
+    });
 app.delete("/workouts/:id", (request, response) => {
   knex("workout_data")
     .where("id", request.params.id)
@@ -220,7 +264,8 @@ app.patch('/workouts/:id', (request, response) => {
     .catch((err) =>
       response.status(500).json({
         message: 'Requested workout does not exist',
-      })
+      }))
+    });
 app.patch("/workouts/:id", (request, response) => {
   knex("workout_data")
     .where("id", request.params.id)
@@ -307,6 +352,7 @@ app.delete('/users/:userId/workouts/:workoutId', (request, response) => {
         message: 'Workout could not be deleted or does not exist.',
       })
     );
+  });
 app.delete("/users/:userId/workouts/:workoutId", (request, response) => {
   knex("workout_data")
     .where("id", request.params.workoutId)
