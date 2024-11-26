@@ -1,0 +1,54 @@
+.user-profile-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* Create three equal-width columns */
+  gap: 2rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 1200px; 
+  margin: 0 auto; 
+}
+
+
+.basic-info {
+  display: flex;
+  margin-top: 2rem;
+  gap: 2rem;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #ddd;
+}
+
+.metrics-chart {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 8px;}
+
+.charts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chart {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.workouts-section,
+.goals-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
