@@ -14,14 +14,14 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    let endpoint = login ? '/login' : '/register';
-    let response = await fetch(`http://localhost:5001${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData), credentials: 'include' })
+    let endpoint = login ? '/api/auth/login' : '/api/auth/register';
+    let response = await fetch(`http://localhost:8081${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)})
       .then(response => !response.ok ? Promise.reject(new Error('Failed to POST Login/Registration Request')) : Promise.resolve(response.json()))
       .catch(error => { console.log(error.message)})
-    let data = await response.json();
-    console.log(data);
-    navigate('/User-Profile');
+    let data = await response;
+    console.log(data)
+    if (data) {navigate('/User-Profile')};
   };
 
   return (
