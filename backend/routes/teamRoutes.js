@@ -1,6 +1,8 @@
+// teamRoutes.js
+
 // Import required modules
-const express = require('express');
-const router = express.Router();
+const { Router } = require('express');
+const teamRouter = Router();
 const { Pool } = require('pg');
 
 // Set up PostgreSQL connection using environment variables
@@ -13,7 +15,7 @@ const pool = new Pool({
 });
 
 // GET All Teams
-router.get('/', async (req, res) => {
+teamRouter.get('/', async (req, res) => {
   console.log('GET request received at /teams');  // Debugging log
   try {
     const result = await pool.query('SELECT * FROM teams');
@@ -24,7 +26,7 @@ router.get('/', async (req, res) => {
 });
 
 // POST Create New Team
-router.post('/', async (req, res) => {
+teamRouter.post('/', async (req, res) => {
   console.log('POST request received at /teams');  // Debugging log
   const { name } = req.body;
 
@@ -48,7 +50,7 @@ router.post('/', async (req, res) => {
 });
 
 // DELETE Team by ID
-router.delete('/:id', async (req, res) => {
+teamRouter.delete('/:id', async (req, res) => {
   const teamId = req.params.id;
   console.log('DELETE request received for team with ID:', teamId);
 
@@ -60,4 +62,4 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = teamRouter;
