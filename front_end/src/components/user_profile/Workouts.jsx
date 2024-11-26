@@ -14,11 +14,13 @@ export default function Workouts({ workouts }) {
       <ul>
         {workouts.map((workout, index) => (
           <li key={index}>
-            <div onClick={() => toggleDetails(index)}>
+            <div
+              className="workout-type" 
+              onClick={() => toggleDetails(index)}>
               {workout.workout_type}
             </div>
             {expanded === index && (
-              <div >
+              <div>
                 <p>Date: {new Date(workout.activity_day).toLocaleDateString()}</p>
                 <p>Distance: {workout.distance} km</p>
                 <p>Time: {workout.time} min</p>

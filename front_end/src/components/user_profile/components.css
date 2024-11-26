@@ -44,6 +44,11 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.chart canvas {
+  height: 250px; 
+  width: 100%; 
+}
 .workouts-section,
 .goals-section {
   margin-top: 2rem;
@@ -51,4 +56,43 @@
   background: white;
   border: 1px solid #eee;
   border-radius: 8px;
+  text-align:center;
+}
+
+.workouts-section ul {
+  list-style-type: none;  
+  padding-left: 0; 
+  display: flex;          
+  flex-direction: column; 
+  align-items: center;        
+}
+
+.workouts-section li {
+  margin-left: 0;         
+}
+
+.workout-type {
+  display: inline-block;
+  padding: 1rem;
+  background-color: #f5f5f5; 
+  border: 1px solid #ddd;    
+  border-radius: 8px;       
+  cursor: pointer;          
+  transition: background-color 0.3s, box-shadow 0.3s;
+  width: 300px;              
+  text-align: center;
+}
+
+.workout-type:hover {
+  background-color: #e1e1e1;  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+
+.workout-type p {
+  margin: 0.5rem 0; 
+}
+
+.workout-type p:first-child {
+  font-weight: bold;
 }

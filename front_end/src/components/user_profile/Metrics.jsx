@@ -29,6 +29,7 @@ export default function MetricsChart({ workouts }) {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           title: {
             display: true,
@@ -56,6 +57,7 @@ export default function MetricsChart({ workouts }) {
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
           plugins: {
             title: {
               display: true,
@@ -83,6 +85,7 @@ export default function MetricsChart({ workouts }) {
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           title: {
             display: true,
