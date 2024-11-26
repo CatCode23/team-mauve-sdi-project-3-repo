@@ -13,7 +13,7 @@ const registerUser = async (req, res) => {
     let [newUser] = await knex('users').insert( { username, password: hashedPass }, ['username'] );
 
     res.cookie('user', JSON.stringify(newUser), {httpOnly: true, maxAge: 1800000}); //half hour
-    res.status(201).json(user);
+    res.status(201).json(newUser);
   } catch (error) {
     console.error(error);
     res.status(500).json( { message: 'Server Error - User Registration' } );
