@@ -10,6 +10,9 @@ import ErrorPage from "./routes/error_page.jsx";
 import Login from "./routes/login.jsx";
 import LeaderDashboard from "./routes/leader_dashboard.jsx";
 import UserProfile from "./routes/user_profile.jsx";
+import StepGoal from './components/StepGoal.jsx';
+import Workouts from './components/Workouts.jsx'; 
+import Home from './components/Home.jsx'; 
 
 import './index.css'
 
@@ -22,6 +25,18 @@ const router = createBrowserRouter( [
       {
         index: "/",
         element: <Login />
+      },
+      {
+        path: "/home",
+        element: <Home />
+      },
+      {
+        path: "/workouts",
+        element: <Workouts />
+      },
+      {
+        path: "/set-goal",
+        element: <StepGoal />
       },
       {
         path: "/User-Profile",

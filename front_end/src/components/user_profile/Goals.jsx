@@ -2,12 +2,13 @@ import React, { useEffect } from "react";
 import { Chart } from "chart.js/auto";
 
 export default function Goals() {
+
   useEffect(() => {
     //make Steps Chart
     const stepsChart = new Chart(document.getElementById("steps-chart"), {
       type: "doughnut",
       data: {
-        labels: ["Completed", "Remaining"],
+        labels: ["Steps Completed", "Steps Remaining"],
         datasets: [
           {
             data: [7000, 3000], 
@@ -31,7 +32,7 @@ export default function Goals() {
     const caloriesChart = new Chart(document.getElementById("calories-chart"), {
       type: "doughnut",
       data: {
-        labels: ["Completed", "Remaining"],
+        labels: ["Calories Burned     ", "Calories Remaining"],
         datasets: [
           {
             data: [1500, 500], 
@@ -55,7 +56,7 @@ export default function Goals() {
     const timeChart = new Chart(document.getElementById("time-chart"), {
       type: "doughnut",
       data: {
-        labels: ["Completed", "Remaining"],
+        labels: ["Minutes Completed", "Minutes Remaining"],
         datasets: [
           {
             data: [40, 20], 
@@ -84,15 +85,14 @@ export default function Goals() {
 
   return (
     <div className="goals-section">
-      <h3>Goals</h3>
       <div className="goal-item">
-        <h4>Steps</h4>
+        <h4>Step Goal</h4>
         <div style={{ height: "250px", width: "250px" }}>
           <canvas id="steps-chart"></canvas>
         </div>
       </div>
       <div className="goal-item">
-        <h4>Calories</h4>
+        <h4>Calorie Goal</h4>
         <div style={{ height: "250px", width: "250px" }}>
           <canvas id="calories-chart"></canvas>
         </div>
