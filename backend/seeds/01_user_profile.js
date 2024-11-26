@@ -14,8 +14,14 @@ exports.seed = async function (knex) {
   ]);
 
   // Fetch workout IDs for seeding purposes
-  const workouts1 = await knex("workout_data").select("id").limit(5);
-  const workouts2 = await knex("workout_data").select("id").offset(5).limit(5);
+  const workouts1 = await knex("workout_data")
+    .select("id")
+    .orderByRaw("RANDOM()")
+    .limit(10);
+  const workouts2 = await knex("workout_data")
+    .select("id")
+    .orderByRaw("RANDOM()")
+    .limit(10);
 
   // Prepare seed data for user_profile
   const seedData = [
