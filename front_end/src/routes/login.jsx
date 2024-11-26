@@ -15,7 +15,7 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     let endpoint = login ? '/login' : '/register';
-    let response = await fetch(`http://localhost:5000${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+    let response = await fetch(`http://localhost:5001${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData), credentials: 'include' })
       .then(response => !response.ok ? Promise.reject(new Error('Failed to POST Login/Registration Request')) : Promise.resolve(response.json()))
       .catch(error => { console.log(error.message)})

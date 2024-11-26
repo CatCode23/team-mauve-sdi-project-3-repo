@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
-const knex = require('../knex');
+const knex = require('knex')(require('../knexfile.js')[process.env.NODE_ENV || 'development']);
+
 
 const registerUser = async (req, res) => {
   let { username, password } = req.body;
