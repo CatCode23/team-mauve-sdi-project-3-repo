@@ -5,6 +5,7 @@
 exports.up = function (knex) {
     return knex.schema.createTable("user_profile", (table) => {
       table.increments("id");
+      table.integer("user_id")
       table.integer("id_workout")
       table.foreign("id_workout").references("workout_data.id")
       table.integer("id_workout_schedule")
